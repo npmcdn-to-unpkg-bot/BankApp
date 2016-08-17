@@ -2,9 +2,9 @@
   "name": "BankApp",
   "version": "0.0.0",
   "private": true,
-  "main": "./bin/www",
+  "main": "./bin/server.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/server.js"
   },
   "engines": {
     "node": "6.3.1"
