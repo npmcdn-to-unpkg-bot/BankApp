@@ -77,9 +77,9 @@ const AccInfo = React.createClass({
       }
     });
     let bal = credit - debit;
-    // if (bal<0){
-    //   bal = "N/A";
-    // }
+    if (bal<0){
+      bal = "N/A";
+    }
     return(
       <div>
         <br/>
