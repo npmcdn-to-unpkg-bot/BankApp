@@ -2,7 +2,7 @@ var express = require('express');
 const moment = require('moment');
 var router = express.Router();
 
-let Transaction = require('../models/Transaction');
+let Transaction = require('/models/Transaction');
 
 
 router.get('/', function(req, res) {
