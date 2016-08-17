@@ -8,14 +8,15 @@ const MainComponent = React.createClass({
     // });
     this.fetchData();
     return {
-      transactions : []
+      transactions : [],
+      catrans : []
     }
   },
   fetchData(){
     fetch('/transactions')
     .then(res=>res.json())
     .then(data=>{
-      this.setState({transactions : data});
+      this.setState({transactions : data,catrans : data});
     });
   },
   deletetrans(id){
@@ -53,7 +54,7 @@ const MainComponent = React.createClass({
       <div>
         <h3>Welcome to -- Bank</h3>
         <TransForm addtrans={this.addtrans}/>
-        <AccInfo transactions={this.state.transactions}/>
+        <AccInfo transactions={this.state.catrans}/>
         <button onClick={this.showCredits}>Credits</button>
         <button onClick={this.showDebits}>Debits</button>
         <button onClick={this.fetchData}>Both</button>
@@ -64,6 +65,7 @@ const MainComponent = React.createClass({
 });
 
 const AccInfo = React.createClass({
+  //getInitialState
   render(){
     let credit=0,debit=0;
     this.props.transactions.forEach(transaction=>{
@@ -75,9 +77,15 @@ const AccInfo = React.createClass({
       }
     });
     let bal = credit - debit;
+    // if (bal<0){
+    //   bal = "N/A";
+    // }
     return(
       <div>
-        <br/><span>Account Balance :${bal} </span><span> Debits :${debit} </span><span> Credits :${credit}</span><br/><br/>
+        <br/>
+          <span>Account Balance :${bal} , </span>
+          <span> Debits :${debit} , </span>
+          <span> Credits :${credit}</span><br/><br/>
       </div>
     );
   }
@@ -100,7 +108,10 @@ const ShowTrans = React.createClass({
           <td>{transaction.amount}</td>
           <td>{transaction.date}</td>
           <td>
-            <button value={transaction._id} onClick={this.deletetrans} className="btn btn-danger btn-xs">Delete</button>
+            <button
+              value={transaction._id}
+              onClick={this.deletetrans}
+              className="btn btn-danger btn-xs">Delete</button>
             {/* <button className="btn btn-default btn-xs">Modify</button> */}
           </td>
         </tr>
@@ -139,7 +150,12 @@ const TransForm = React.createClass({
   },
   addtrans(e){
     e.preventDefault();
-    let trans={name : this.state.tranName,type: this.state.type,amount : this.state.amount};
+    let trans=
+      {
+        name : this.state.tranName,
+        type: this.state.type,
+        amount : this.state.amount
+      };
     // console.log("trans",trans);
     this.props.addtrans(trans);
     this.resetForm();
@@ -167,8 +183,18 @@ const TransForm = React.createClass({
           <option value="Credit"> Credit </option>
           <option value="Debit"> Debit </option>
         </select><br/><br/>
-        <input value={this.state.tranName} onChange={e=>this.setState({tranName: e.target.value})} type="text" placeholder="Transaction Name"/><br/><br/>
-        <input value={this.state.amount} onChange={e=>this.setState({amount: e.target.value})} type="number" placeholder="Amount"/><br/><br/>
+        <input
+          value={this.state.tranName}
+          onChange={e=>this.setState({tranName: e.target.value})}
+          type="text"
+          placeholder="Transaction Name"
+        /><br/><br/>
+        <input
+          value={this.state.amount}
+          onChange={e=>this.setState({amount: e.target.value})}
+          type="number"
+          placeholder="Amount"
+        /><br/><br/>
         <button type="sumbit">Add</button>
         <button onClick={this.resetForm}>Reset</button>
       </form>
