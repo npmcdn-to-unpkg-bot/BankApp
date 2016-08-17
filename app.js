@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 const mongo = require('mongo');
 var mongoose = require('mongoose');
 
-const MONGO_URI = process.env.MONGODB_URI || 'mongodb://localhost/transcationsdb';
+const MONGO_URI = process.env.MONGOLAB_PURPLE_URI || 'mongodb://localhost/transcationsdb';
 mongoose.connect(MONGO_URI,{},err=>{
   if (err) throw err;
   console.log(`Mongodb connected to ${MONGO_URI}`);
