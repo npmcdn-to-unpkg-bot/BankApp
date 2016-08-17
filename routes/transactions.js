@@ -1,8 +1,9 @@
 var express = require('express');
 const moment = require('moment');
+const path = require('path');
 var router = express.Router();
 
-let Transaction = require('/models/Transaction');
+let Transaction = require(path.join(__dirname,'models/Transaction'));
 
 
 router.get('/', function(req, res) {
