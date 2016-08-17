@@ -1,6 +1,7 @@
-const mongoose = require('mongoose');
 const mongo = require('mongo');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+
 let transactionSchema = new Schema(
 
   {
