@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost/transcationsdb';
+const MONGO_URI = process.env.MONGODB_URI || 'mongodb://localhost/transcationsdb';
 var mongoose = require('mongoose');
 mongoose.connect(MONGO_URI,{},err=>{
   if (err) throw err;
