@@ -34,12 +34,29 @@ const MainComponent = React.createClass({
     })
     .then(()=>this.fetchData())
   },
+  showCredits(){
+    fetch('/transactions/credits')
+    .then(res=>res.json())
+    .then(data=>{
+      this.setState({transactions : data});
+    });
+  },
+  showDebits(){
+    fetch('/transactions/debits')
+    .then(res=>res.json())
+    .then(data=>{
+      this.setState({transactions : data});
+    });
+  },
   render(){
     return (
       <div>
         <h3>Welcome to -- Bank</h3>
         <TransForm addtrans={this.addtrans}/>
         <AccInfo transactions={this.state.transactions}/>
+        <button onClick={this.showCredits}>Credits</button>
+        <button onClick={this.showDebits}>Debits</button>
+        <button onClick={this.fetchData}>Both</button>
         <ShowTrans transactions={this.state.transactions} deletetrans={this.deletetrans}/>
       </div>
     );

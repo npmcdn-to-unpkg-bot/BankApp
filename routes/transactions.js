@@ -15,6 +15,26 @@ router.get('/', function(req, res) {
   });
 });
 
+router.get('/credits',function(req,res){
+  Transaction.find({type : 'Credit'},(err,transactions)=>{
+    if(err) {
+      res.status(400).send(err);
+    }else{
+      res.send(transactions);
+    }
+  });
+});
+
+router.get('/debits',function(req,res){
+  Transaction.find({type : 'Debit'},(err,transactions)=>{
+    if(err) {
+      res.status(400).send(err);
+    }else{
+      res.send(transactions);
+    }
+  });
+});
+
 router.get('/:id',(req,res)=>{
   Transaction.findById(req.params.id,(err,transaction)=>{
     if(err || !transaction){
@@ -36,7 +56,7 @@ router.delete('/:id',(req,res)=>{
 });
 
 router.post('/',(req,res)=>{
-  req.body['date']=moment().format('MMMM Do YYYY, h:mm:ss a'); 
+  req.body['date']=moment().format('MMMM Do YYYY, h:mm:ss a');
   Transaction.create(req.body,(err,transaction)=>{
     if(err || !transaction){
       res.status(400).send(err || 'Transaction not found !');
