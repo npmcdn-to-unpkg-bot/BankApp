@@ -23,5 +23,18 @@
     "mongoose": "^4.5.9",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0"
-  }
+  },
+  "bin": {
+    "BankApp": "server.js"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhilipanraja-joseph/BankApp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dhilipanraja-joseph/BankApp/issues"
+  },
+  "homepage": "https://github.com/dhilipanraja-joseph/BankApp#readme",
+  "description": ""
 }
