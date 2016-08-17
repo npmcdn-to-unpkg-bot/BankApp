@@ -3,7 +3,7 @@ const moment = require('moment');
 const path = require('path');
 var router = express.Router();
 
-let Transaction = require('../models/Transaction');
+let Transaction = require('../models/transaction');
 
 
 router.get('/', function(req, res) {
