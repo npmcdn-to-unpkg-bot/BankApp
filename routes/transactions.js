@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 let Transaction = require('../models/Transaction');
+const moment = require('moment');
 
 
 router.get('/', function(req, res) {
@@ -11,7 +12,7 @@ router.get('/', function(req, res) {
     }else{
       res.send(transactions);
     }
-  }).populate('toppings');
+  });
 });
 
 router.get('/:id',(req,res)=>{
@@ -35,6 +36,7 @@ router.delete('/:id',(req,res)=>{
 });
 
 router.post('/',(req,res)=>{
+  req.body['date']=moment().format('MMMM Do YYYY, h:mm:ss a'); 
   Transaction.create(req.body,(err,transaction)=>{
     if(err || !transaction){
       res.status(400).send(err || 'Transaction not found !');

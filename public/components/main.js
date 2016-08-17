@@ -18,6 +18,11 @@ const MainComponent = React.createClass({
       this.setState({transactions : data});
     });
   },
+  deletetrans(id){
+    fetch(`/transactions/${id}`,{
+      method: "DELETE",
+    }).then(()=>this.fetchData())
+  },
   addtrans(trans){
     //let json=JSON.stringify(trans);
     fetch('/transactions',{
@@ -35,7 +40,7 @@ const MainComponent = React.createClass({
         <h3>Welcome to -- Bank</h3>
         <TransForm addtrans={this.addtrans}/>
         <AccInfo transactions={this.state.transactions}/>
-        <ShowTrans transactions={this.state.transactions}/>
+        <ShowTrans transactions={this.state.transactions} deletetrans={this.deletetrans}/>
       </div>
     );
   }
@@ -43,9 +48,19 @@ const MainComponent = React.createClass({
 
 const AccInfo = React.createClass({
   render(){
+    let credit=0,debit=0;
+    this.props.transactions.forEach(transaction=>{
+      if(transaction.type === 'Debit'){
+        debit += transaction.amount;
+      }else{
+
+        credit += transaction.amount;
+      }
+    });
+    let bal = credit - debit;
     return(
       <div>
-        <br/><span>Account Balance : </span><span> Debits : </span><span> Credits : </span><br/><br/>
+        <br/><span>Account Balance :${bal} </span><span> Debits :${debit} </span><span> Credits :${credit}</span><br/><br/>
       </div>
     );
   }
@@ -54,6 +69,10 @@ const AccInfo = React.createClass({
 
 
 const ShowTrans = React.createClass({
+  deletetrans(e){
+    //console.log(e.target.value);
+    this.props.deletetrans(e.target.value);
+  },
   render(){
     let $tr = this.props.transactions.map(transaction=>{
       return (
@@ -62,6 +81,11 @@ const ShowTrans = React.createClass({
           <td>{transaction.name}</td>
           <td>{transaction.type}</td>
           <td>{transaction.amount}</td>
+          <td>{transaction.date}</td>
+          <td>
+            <button value={transaction._id} onClick={this.deletetrans} className="btn btn-danger btn-xs">Delete</button>
+            {/* <button className="btn btn-default btn-xs">Modify</button> */}
+          </td>
         </tr>
       );
     });
@@ -73,6 +97,8 @@ const ShowTrans = React.createClass({
             <th>Name</th>
             <th>Type</th>
             <th>Amount</th>
+            <th>Time</th>
+            <th>Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -99,6 +125,7 @@ const TransForm = React.createClass({
     let trans={name : this.state.tranName,type: this.state.type,amount : this.state.amount};
     // console.log("trans",trans);
     this.props.addtrans(trans);
+    this.resetForm();
   },
   transtype(e){
     let type = e.target.value;
@@ -111,8 +138,8 @@ const TransForm = React.createClass({
 
     }
   },
-  resetForm(e){
-    e.preventDefault();
+  resetForm(){
+    //e.preventDefault();
     this.setState({tranName : '',amount:''});
   },
   render(){
